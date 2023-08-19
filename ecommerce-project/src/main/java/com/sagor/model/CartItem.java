@@ -32,7 +32,7 @@ public class CartItem {
 
 	private String size;
 
-	private String quantity;
+	private int quantity;
 
 	private Integer price;
 
