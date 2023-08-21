@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sagor.config.JwtProvider;
 import com.sagor.exception.UserException;
+import com.sagor.model.Cart;
 import com.sagor.model.User;
 import com.sagor.repository.UserRepository;
 import com.sagor.request.LoginRequest;
 import com.sagor.response.AuthResponse;
+import com.sagor.service.CartService;
 import com.sagor.service.impl.CustomUserServiceImplementation;
 
 @RestController
@@ -29,13 +31,15 @@ public class AuthController {
 	private final JwtProvider jwtProvider;
 	private final PasswordEncoder passwordEncoder;
 	private final CustomUserServiceImplementation customUserServiceImplementation;
+	private final CartService cartService;
 
 	public AuthController(UserRepository userRepository, JwtProvider jwtProvider, PasswordEncoder passwordEncoder,
-			CustomUserServiceImplementation customUserServiceImplementation) {
+			CustomUserServiceImplementation customUserServiceImplementation, CartService cartService) {
 		this.userRepository = userRepository;
 		this.jwtProvider = jwtProvider;
 		this.passwordEncoder = passwordEncoder;
 		this.customUserServiceImplementation = customUserServiceImplementation;
+		this.cartService = cartService;
 	}
 
 	@PostMapping("/signup")
@@ -58,13 +62,13 @@ public class AuthController {
 		createdUser.setLastName(lastName);
 
 		User savedUser = userRepository.save(createdUser);
+		Cart cart = cartService.createCart(savedUser);
 
 		Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(),
 				savedUser.getPassword());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		String token = jwtProvider.generateToken(authentication);
-
 		AuthResponse authResponse = new AuthResponse();
 		authResponse.setJwt(token);
 		authResponse.setMessage("Signup Successfully");
