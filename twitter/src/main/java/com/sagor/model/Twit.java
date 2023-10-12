@@ -1,5 +1,6 @@
 package com.sagor.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class Twit {
 	private String content;
 	private String message;
 	private String video;
+	private String image;
 
 	@OneToMany(mappedBy = "twit", cascade = CascadeType.ALL)
 	private List<Like> likes = new ArrayList<>();
@@ -42,5 +44,6 @@ public class Twit {
 
 	private boolean isReply;
 	private boolean isTwit;
+	private LocalDateTime createdAt;
 
 }
