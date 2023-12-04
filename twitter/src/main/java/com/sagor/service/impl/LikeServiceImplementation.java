@@ -31,22 +31,22 @@ public class LikeServiceImplementation implements LikeService {
 	@Override
 	public Like likeTwit(Long twitId, User user) throws UserException, TwitException {
 		Like isLikeExist = likeRepository.isLikeExist(user.getId(), twitId);
-		if (isLikeExist != null) {
-			likeRepository.deleteById(twitId);
-			return isLikeExist;
+		if (isLikeExist == null) {
+			Twit twit = twitService.findById(twitId);
+
+			Like like = new Like();
+
+			like.setTwit(twit);
+			like.setUser(user);
+
+			Like savedLike = likeRepository.save(like);
+			twit.getLikes().add(savedLike);
+			twitRepository.save(twit);
+			return savedLike;
 		}
+		likeRepository.deleteById(twitId);
+		return isLikeExist;
 
-		Twit twit = twitService.findById(twitId);
-
-		Like like = new Like();
-
-		like.setTwit(twit);
-		like.setUser(user);
-
-		Like savedLike = likeRepository.save(like);
-		twit.getLikes().add(savedLike);
-		twitRepository.save(twit);
-		return savedLike;
 	}
 
 	@Override

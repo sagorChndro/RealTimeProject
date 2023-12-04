@@ -46,6 +46,8 @@ public class TwitController {
 
 		TwitDto twitDto = TwitDtoMapper.toTwitDto(twit, user);
 
+		System.out.println("create twit from controller " + twitDto);
+
 		return new ResponseEntity<TwitDto>(twitDto, HttpStatus.CREATED);
 
 	}
@@ -87,7 +89,7 @@ public class TwitController {
 	}
 
 	@DeleteMapping("/{twitId}")
-	public ResponseEntity<ApiResponse> deleteTwit(@PathVariable Long twitId, @RequestHeader("Atuhorization") String jwt)
+	public ResponseEntity<ApiResponse> deleteTwit(@PathVariable Long twitId, @RequestHeader("Authorization") String jwt)
 			throws UserException, TwitException {
 
 		User user = userService.findUserByProfileByJwt(jwt);
@@ -101,11 +103,11 @@ public class TwitController {
 //		res.setMessage("Twit deleted successfully");
 //		res.setStatus(true);
 
-		return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
+		return new ResponseEntity<ApiResponse>(response, HttpStatus.ACCEPTED);
 
 	}
 
-	@GetMapping("/")
+	@GetMapping("/getAll")
 	public ResponseEntity<List<TwitDto>> getAllTwits(@RequestHeader("Authorization") String jwt)
 			throws UserException, TwitException {
 		User user = userService.findUserByProfileByJwt(jwt);
@@ -113,6 +115,7 @@ public class TwitController {
 		List<Twit> twit = twitService.findAllTwit();
 
 		List<TwitDto> twitDto = TwitDtoMapper.toTwitDtos(twit, user);
+		System.out.println("get twit from controller " + twitDto);
 
 		return new ResponseEntity<List<TwitDto>>(twitDto, HttpStatus.OK);
 	}

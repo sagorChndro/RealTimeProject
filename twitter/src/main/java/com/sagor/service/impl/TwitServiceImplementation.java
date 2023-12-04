@@ -36,7 +36,10 @@ public class TwitServiceImplementation implements TwitService {
 		twit.setTwit(true);
 		twit.setVideo(req.getVideo());
 
-		return twitRepository.save(twit);
+		Twit savedTwit = twitRepository.save(twit);
+		System.out.println("create twit from service " + savedTwit);
+
+		return savedTwit;
 	}
 
 	@Override

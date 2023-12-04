@@ -43,7 +43,7 @@ public class AuthController {
 
 		String email = user.getEmail();
 		String password = user.getPassword();
-		String fullName = user.getBirthDate();
+		String fullName = user.getFullName();
 		String birthDate = user.getBirthDate();
 
 		User isEmialExist = userRepository.findByEmail(email);

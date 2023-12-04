@@ -46,4 +46,108 @@ public class Twit {
 	private boolean isTwit;
 	private LocalDateTime createdAt;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getVideo() {
+		return video;
+	}
+
+	public void setVideo(String video) {
+		this.video = video;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public List<Like> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Like> likes) {
+		this.likes = likes;
+	}
+
+	public List<Twit> getReplyTwit() {
+		return replyTwit;
+	}
+
+	public void setReplyTwit(List<Twit> replyTwit) {
+		this.replyTwit = replyTwit;
+	}
+
+	public List<User> getReTwitsUser() {
+		return reTwitsUser;
+	}
+
+	public void setReTwitsUser(List<User> reTwitsUser) {
+		this.reTwitsUser = reTwitsUser;
+	}
+
+	public Twit getReplyFor() {
+		return replyFor;
+	}
+
+	public void setReplyFor(Twit replyFor) {
+		this.replyFor = replyFor;
+	}
+
+	public boolean isReply() {
+		return isReply;
+	}
+
+	public void setReply(boolean isReply) {
+		this.isReply = isReply;
+	}
+
+	public boolean isTwit() {
+		return isTwit;
+	}
+
+	public void setTwit(boolean isTwit) {
+		this.isTwit = isTwit;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
 }
