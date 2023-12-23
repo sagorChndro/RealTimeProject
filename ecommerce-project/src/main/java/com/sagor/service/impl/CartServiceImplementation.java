@@ -1,5 +1,6 @@
 package com.sagor.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sagor.exception.ProductException;
@@ -16,16 +17,19 @@ import com.sagor.service.ProductService;
 @Service
 public class CartServiceImplementation implements CartService {
 
-	private final CartRepository cartRepository;
-	private final CartItemService cartItemService;
-	private final ProductService productService;
+	@Autowired
+	private CartRepository cartRepository;
+	@Autowired
+	private CartItemService cartItemService;
+	@Autowired
+	private ProductService productService;
 
-	public CartServiceImplementation(CartRepository cartRepository, CartItemService cartItemService,
-			ProductService productService) {
-		this.cartRepository = cartRepository;
-		this.cartItemService = cartItemService;
-		this.productService = productService;
-	}
+//	public CartServiceImplementation(CartRepository cartRepository, CartItemService cartItemService,
+//			ProductService productService) {
+//		this.cartRepository = cartRepository;
+//		this.cartItemService = cartItemService;
+//		this.productService = productService;
+//	}
 
 	@Override
 	public Cart createCart(User user) {
@@ -76,7 +80,7 @@ public class CartServiceImplementation implements CartService {
 		cart.setTotalPrice(totalPrice);
 		cart.setDiscount(totalDiscountedPrice);
 		cart.setTotalItem(totalItem);
-		cart.setDiscount(totalPrice - totalDiscountedPrice);
+		cart.setTotalDiscountPrice(totalPrice - totalDiscountedPrice);
 		return cartRepository.save(cart);
 	}
 

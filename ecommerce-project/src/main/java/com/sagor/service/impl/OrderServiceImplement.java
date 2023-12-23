@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sagor.exception.OrderException;
@@ -25,23 +26,29 @@ import com.sagor.service.OrderService;
 @Service
 public class OrderServiceImplement implements OrderService {
 
-	private final OrderRepository orderRepository;
-	private final CartService cartService;
-	private final AddressRepository addressRepository;
-	private final UserRepository userRepository;
-	private final OrderItemService orderItemService;
-	private final OrderItemRepository orderItemRepository;
+	@Autowired
+	private OrderRepository orderRepository;
+	@Autowired
+	private CartService cartService;
+	@Autowired
+	private AddressRepository addressRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private OrderItemService orderItemService;
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
-	public OrderServiceImplement(OrderRepository orderRepository, CartService cartService,
-			AddressRepository addressRepository, UserRepository userRepository, OrderItemService orderItemService,
-			OrderItemRepository orderItemRepository) {
-		this.orderRepository = orderRepository;
-		this.cartService = cartService;
-		this.addressRepository = addressRepository;
-		this.userRepository = userRepository;
-		this.orderItemService = orderItemService;
-		this.orderItemRepository = orderItemRepository;
-	}
+//	public OrderServiceImplement(OrderRepository orderRepository, CartService cartService,
+//			AddressRepository addressRepository, UserRepository userRepository, OrderItemService orderItemService,
+//			OrderItemRepository orderItemRepository) {
+//		this.orderRepository = orderRepository;
+//		this.cartService = cartService;
+//		this.addressRepository = addressRepository;
+//		this.userRepository = userRepository;
+//		this.orderItemService = orderItemService;
+//		this.orderItemRepository = orderItemRepository;
+//	}
 
 	@Override
 	public Order createOrder(User user, Address shippingAddress) {

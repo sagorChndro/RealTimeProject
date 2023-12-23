@@ -2,6 +2,7 @@ package com.sagor.service.impl;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sagor.exception.CartItemException;
@@ -18,16 +19,19 @@ import com.sagor.service.UserService;
 @Service
 public class CartItemServiceImplement implements CartItemService {
 
-	private final CartItemRepository cartItemRepository;
-	private final CartRepository cartRepository;
-	private final UserService userService;
+	@Autowired
+	private CartItemRepository cartItemRepository;
+	@Autowired
+	private CartRepository cartRepository;
+	@Autowired
+	private UserService userService;
 
-	public CartItemServiceImplement(CartItemRepository cartItemRepository, UserService userService,
-			CartRepository cartRepository) {
-		this.cartItemRepository = cartItemRepository;
-		this.cartRepository = cartRepository;
-		this.userService = userService;
-	}
+//	public CartItemServiceImplement(CartItemRepository cartItemRepository, UserService userService,
+//			CartRepository cartRepository) {
+//		this.cartItemRepository = cartItemRepository;
+//		this.cartRepository = cartRepository;
+//		this.userService = userService;
+//	}
 
 	@Override
 	public CartItem createCartItem(CartItem cartItem) {

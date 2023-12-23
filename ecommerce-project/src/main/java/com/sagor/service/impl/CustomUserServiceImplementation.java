@@ -3,6 +3,7 @@ package com.sagor.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,11 +16,12 @@ import com.sagor.repository.UserRepository;
 @Service
 public class CustomUserServiceImplementation implements UserDetailsService {
 
-	private final UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-	public CustomUserServiceImplementation(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+//	public CustomUserServiceImplementation(UserRepository userRepository) {
+//		this.userRepository = userRepository;
+//	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

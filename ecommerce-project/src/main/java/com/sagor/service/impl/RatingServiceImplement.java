@@ -3,6 +3,7 @@ package com.sagor.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sagor.exception.ProductException;
@@ -17,13 +18,15 @@ import com.sagor.service.RatingService;
 @Service
 public class RatingServiceImplement implements RatingService {
 
-	private final RatingRepository ratingRepository;
-	private final ProductService productService;
+	@Autowired
+	private RatingRepository ratingRepository;
+	@Autowired
+	private ProductService productService;
 
-	public RatingServiceImplement(RatingRepository ratingRepository, ProductService productService) {
-		this.ratingRepository = ratingRepository;
-		this.productService = productService;
-	}
+//	public RatingServiceImplement(RatingRepository ratingRepository, ProductService productService) {
+//		this.ratingRepository = ratingRepository;
+//		this.productService = productService;
+//	}
 
 	@Override
 	public Rating createRating(RatingRequest req, User user) throws ProductException {
