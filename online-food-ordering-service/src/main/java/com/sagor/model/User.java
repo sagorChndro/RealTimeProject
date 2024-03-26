@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.sagor.dto.RestaurantDto;
 
 import jakarta.persistence.CascadeType;
@@ -23,6 +25,8 @@ public class User {
 	private Long id;
 	private String fullName;
 	private String email;
+
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	private User_Role role = User_Role.ROLE_CUSTOMER;
 
