@@ -6,4 +6,6 @@ import com.sagor.model.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
+	public Cart findByCustomerId(Long userId);
+
 }
