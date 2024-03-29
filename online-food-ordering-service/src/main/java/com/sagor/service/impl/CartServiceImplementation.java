@@ -1,5 +1,7 @@
 package com.sagor.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.sagor.model.Cart;
@@ -55,38 +57,59 @@ public class CartServiceImplementation implements CartService {
 
 	@Override
 	public CartItem updateCartItemQuantity(Long cartItemId, int quantity) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
+		if (cartItemOptional.isEmpty()) {
+			throw new Exception("Cart item not found");
+		}
+		CartItem item = new CartItem();
+		item.setQuantity(quantity);
+		item.setTotalPrice(item.getFood().getPrice() * quantity);
+		return cartItemRepository.save(item);
 	}
 
 	@Override
 	public Cart removeItemFromCart(Long cartItemId, String jwt) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		User user = userService.findUserByJwtToken(jwt);
+		Cart cart = cartRepository.findByCustomerId(user.getId());
+
+		Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
+		if (cartItemOptional.isEmpty()) {
+			throw new Exception("Cart item is not found");
+		}
+		CartItem item = cartItemOptional.get();
+		cart.getCartItems().remove(item);
+		return cartRepository.save(cart);
 	}
 
 	@Override
 	public Long calculateCartTotals(Cart cart) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Long total = 0L;
+		for (CartItem cartItem : cart.getCartItems()) {
+			total += cartItem.getFood().getPrice() * cartItem.getQuantity();
+		}
+
+		return total;
 	}
 
 	@Override
 	public Cart findCartById(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Cart> optionalCart = cartRepository.findById(id);
+		if (optionalCart.isEmpty()) {
+			throw new Exception("Cart not found with id : " + id);
+		}
+		return optionalCart.get();
 	}
 
 	@Override
 	public Cart findCartByUserId(Long userId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return cartRepository.findByCustomerId(userId);
 	}
 
 	@Override
 	public Cart clearCart(Long userId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Cart cart = findCartByUserId(userId);
+		cart.getCartItems().clear();
+		return cartRepository.save(cart);
 	}
 
 }
