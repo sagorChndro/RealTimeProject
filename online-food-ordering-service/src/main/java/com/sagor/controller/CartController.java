@@ -13,18 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sagor.model.Cart;
 import com.sagor.model.CartItem;
+import com.sagor.model.User;
 import com.sagor.request.AddCartItemRequest;
 import com.sagor.request.UpdateCartItemRequest;
 import com.sagor.service.CartService;
+import com.sagor.service.UserService;
 
 @RestController
 @RequestMapping("/api")
 public class CartController {
 
 	private final CartService cartService;
+	private final UserService userService;
 
-	public CartController(CartService cartService) {
+	public CartController(CartService cartService, UserService userService) {
 		this.cartService = cartService;
+		this.userService = userService;
 	}
 
 	@PutMapping("/cart/add")
@@ -50,13 +54,15 @@ public class CartController {
 
 	@PutMapping("/cart/clear")
 	public ResponseEntity<Cart> clearCart(@RequestHeader("Authorization") String jwt) throws Exception {
-		Cart cart = cartService.clearCart(jwt);
+		User user = userService.findUserByJwtToken(jwt);
+		Cart cart = cartService.clearCart(user.getId());
 		return new ResponseEntity<>(cart, HttpStatus.OK);
 	}
 
 	@GetMapping("/cart")
 	public ResponseEntity<Cart> findUserCart(@RequestHeader("Authorization") String jwt) throws Exception {
-		Cart cart = cartService.findCartByUserId(jwt);
+		User user = userService.findUserByJwtToken(jwt);
+		Cart cart = cartService.findCartByUserId(user.getId());
 		return new ResponseEntity<>(cart, HttpStatus.OK);
 
 	}
