@@ -3,6 +3,8 @@ package com.sagor.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -81,26 +83,46 @@ public class OrderServiceImpelmentation implements OrderService {
 
 	@Override
 	public Order updateOrder(Long orderId, String orderStatus) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Order order = findOrderById(orderId);
+		if (orderStatus.equals("OUT_FOR_DELIVERY") || orderStatus.equals("DELIVERED") || orderStatus.equals("COMPLETED")
+				|| orderStatus.equals("PENDING")) {
+
+			order.setOrderStatus(orderStatus);
+			return orderRepository.save(order);
+
+		}
+		throw new Exception("Please select a valid status");
 	}
 
 	@Override
 	public void cancelOrder(Long orderId) throws Exception {
-		// TODO Auto-generated method stub
+		Order order = findOrderById(orderId);
+		orderRepository.deleteById(orderId);
 
 	}
 
 	@Override
 	public List<Order> getUserOrder(Long userId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return orderRepository.findByCustomerId(userId);
 	}
 
 	@Override
 	public List<Order> getRestaurantOrder(Long restaurantId, String orderStatus) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Order> orders = orderRepository.findByRestaurantId(restaurantId);
+		if (orderStatus != null) {
+			orders = orders.stream().filter(order -> order.getOrderStatus().equals(orderStatus))
+					.collect(Collectors.toList());
+		}
+		return orders;
+	}
+
+	@Override
+	public Order findOrderById(Long orderId) throws Exception {
+		Optional<Order> optionalOrder = orderRepository.findById(orderId);
+		if (optionalOrder.isEmpty()) {
+			throw new Exception("Order not found");
+		}
+		return optionalOrder.get();
 	}
 
 }
